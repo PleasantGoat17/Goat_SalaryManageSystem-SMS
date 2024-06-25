@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="DMS-kcsj">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/DMS-kcsj.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
