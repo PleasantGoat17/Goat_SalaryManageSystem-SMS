@@ -560,7 +560,6 @@ public class AdminFunction implements ActionListener { //财务功能类
                         if (flag) { //部门编号重复，进行提示
                             lb_tips.setText("部门编号重复！");
                             functionTips();
-                            flag = false;
                         } else { //输入数据符合要求，进行保存
                             try {
                                 sql = "UPDATE Department SET DepartmentID=?,Name=?,ParentDepartmentID=?,ManagerID=? WHERE DepartmentID=" + departmentdb.department_id;
@@ -610,29 +609,28 @@ public class AdminFunction implements ActionListener { //财务功能类
                 }
             }
         });
-        bt_cancel.addActionListener(new ActionListener() { //取消
-            public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < 4; i++)
-                    tf[i].setEditable(false);
-                tf[0].setText(departmentdb.department_id);
-                tf[1].setText(departmentdb.department_name);
-                tf[2].setText(departmentdb.parent_department_id);
-                tf[3].setText(departmentdb.manager_id);
-                if (x == 1) {
-                    pn_first_2.remove(bt_save);
-                    pn_first_2.remove(bt_cancel);
-                    sarAdminJFrame.repaint();
-                    pn_first_2.add(bt_modify);
-                    pn_first_2.add(bt_delete);
-                    sarAdminJFrame.validate();
-                } else {
-                    pn_second_2.remove(bt_save);
-                    pn_second_2.remove(bt_cancel);
-                    sarAdminJFrame.repaint();
-                    pn_second_2.add(bt_modify);
-                    pn_second_2.add(bt_delete);
-                    sarAdminJFrame.validate();
-                }
+        //取消
+        bt_cancel.addActionListener(e -> {
+            for (int i = 0; i < 4; i++)
+                tf[i].setEditable(false);
+            tf[0].setText(departmentdb.department_id);
+            tf[1].setText(departmentdb.department_name);
+            tf[2].setText(departmentdb.parent_department_id);
+            tf[3].setText(departmentdb.manager_id);
+            if (x == 1) {
+                pn_first_2.remove(bt_save);
+                pn_first_2.remove(bt_cancel);
+                sarAdminJFrame.repaint();
+                pn_first_2.add(bt_modify);
+                pn_first_2.add(bt_delete);
+                sarAdminJFrame.validate();
+            } else {
+                pn_second_2.remove(bt_save);
+                pn_second_2.remove(bt_cancel);
+                sarAdminJFrame.repaint();
+                pn_second_2.add(bt_modify);
+                pn_second_2.add(bt_delete);
+                sarAdminJFrame.validate();
             }
         });
         if (x == 1) {
@@ -730,7 +728,7 @@ public class AdminFunction implements ActionListener { //财务功能类
                     PreparedStatement ps; //创建PreparedStatement类对象ps，用来执行SQL语句
                     ResultSet rs; //ResultSet类，用来存放获取的结果集
                     try {
-                        boolean flag = false;//代表部门编号是否重复
+                        boolean flag;//代表部门编号是否重复
                         //检测部门编号是否存在
                         sql = "SELECT DepartmentID FROM Department WHERE DepartmentID='" + tf[0].getText() + "'";
                         ps = HomePage.connection.prepareStatement(sql, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.TYPE_FORWARD_ONLY);
@@ -741,7 +739,6 @@ public class AdminFunction implements ActionListener { //财务功能类
                         if (flag) { //部门编号重复，进行提示
                             lb_tips.setText("部门编号重复！");
                             functionTips();
-                            flag = false;
                         } else {
                             //输入数据符合要求，进行添加
                             try {
@@ -825,24 +822,23 @@ public class AdminFunction implements ActionListener { //财务功能类
                 tf[i].setDocument(new NumLimit()); //限制文本框只能输入数字
             pn_second_1.add(tf[i]);
         }
-        bt_query.addActionListener(new ActionListener() { //查询部门信息
-            public void actionPerformed(ActionEvent e) {
-                String sql = "SELECT * FROM Department";
-                if (tf[0].getText().equals("") && tf[1].getText().equals("") && tf[2].getText().equals("") && tf[3].getText().equals("")) {
-                    //无查询条件
-                } else { //有查询条件
-                    sql = sql + " WHERE 1=1";
-                    if (!tf[0].getText().equals(""))
-                        sql = sql + " AND DepartmentID='" + tf[0].getText() + "'";
-                    if (!tf[1].getText().equals(""))
-                        sql = sql + " AND Name=" + tf[1].getText();
-                    if (!tf[2].getText().equals(""))
-                        sql = sql + " AND ParentDepartmentID=" + tf[2].getText();
-                    if (!tf[3].getText().equals(""))
-                        sql = sql + " AND ManagerID=" + tf[3].getText();
-                }
-                queryDepartmentInfo_2(sql);
+        //查询部门信息
+        bt_query.addActionListener(e -> {
+            String sql = "SELECT * FROM Department";
+            if (tf[0].getText().equals("") && tf[1].getText().equals("") && tf[2].getText().equals("") && tf[3].getText().equals("")) {
+                //无查询条件
+            } else { //有查询条件
+                sql = sql + " WHERE 1=1";
+                if (!tf[0].getText().equals(""))
+                    sql = sql + " AND DepartmentID='" + tf[0].getText() + "'";
+                if (!tf[1].getText().equals(""))
+                    sql = sql + " AND Name=" + tf[1].getText();
+                if (!tf[2].getText().equals(""))
+                    sql = sql + " AND ParentDepartmentID=" + tf[2].getText();
+                if (!tf[3].getText().equals(""))
+                    sql = sql + " AND ManagerID=" + tf[3].getText();
             }
+            queryDepartmentInfo_2(sql);
         });
         pn_second.removeAll();
         sarAdminJFrame.repaint();
@@ -1250,7 +1246,6 @@ public class AdminFunction implements ActionListener { //财务功能类
                         if (flag) { //员工编号重复，进行提示
                             lb_tips.setText("员工编号重复！");
                             functionTips();
-                            flag = false;
                         } else { //输入数据符合要求，进行保存
                             try {
                                 sql = "UPDATE Employee SET EmployeeID=?,Name=?,TitleID=?,PositionID=?,DepartmentID=?,HireDate=?,BasicSalary=? WHERE EmployeeID='" + employeedb.employee_id + "'";
@@ -1563,27 +1558,26 @@ public class AdminFunction implements ActionListener { //财务功能类
                 tf[i].setDocument(new NumLimit()); //限制文本框只能输入数字
             pn_second_1.add(tf[i]);
         }
-        bt_query.addActionListener(new ActionListener() { //查询学生信息
-            public void actionPerformed(ActionEvent e) {
-                String sql = "SELECT * FROM EmployeeView WHERE DepartmentName=(SELECT Name FROM Department WHERE DepartmentID = " + department_id + ") AND 1=1";
-                if (tf[0].getText().equals("") && tf[1].getText().equals("") && tf[2].getText().equals("") && tf[3].getText().equals("") && tf[4].getText().equals("")) {
-                    //无查询条件
-                } else { //有查询条件
-                    if (!tf[0].getText().equals(""))
-                        sql = sql + " AND EmployeeID='" + tf[0].getText() + "'";
-                    if (!tf[1].getText().equals(""))
-                        sql = sql + " AND EmployeeName='" + tf[1].getText() + "'";
-                    if (!tf[2].getText().equals(""))
-                        sql = sql + " AND TitleName='" + tf[2].getText() + "'";
-                    if (!tf[3].getText().equals(""))
-                        sql = sql + " AND PositionName='" + tf[3].getText() + "'";
-                    // if(!tf[4].getText().equals(""))
-                    // 	sql=sql+" AND DepartMentName="+tf[4].getText();
-                    if (!tf[4].getText().equals(""))
-                        sql = sql + " AND HireDate=" + tf[4].getText();
-                }
-                queryEmployeeInfo_2(sql);
+        //查询学生信息
+        bt_query.addActionListener(e -> {
+            String sql = "SELECT * FROM EmployeeView WHERE DepartmentName=(SELECT Name FROM Department WHERE DepartmentID = " + department_id + ") AND 1=1";
+            if (tf[0].getText().equals("") && tf[1].getText().equals("") && tf[2].getText().equals("") && tf[3].getText().equals("") && tf[4].getText().equals("")) {
+                //无查询条件
+            } else { //有查询条件
+                if (!tf[0].getText().equals(""))
+                    sql = sql + " AND EmployeeID='" + tf[0].getText() + "'";
+                if (!tf[1].getText().equals(""))
+                    sql = sql + " AND EmployeeName='" + tf[1].getText() + "'";
+                if (!tf[2].getText().equals(""))
+                    sql = sql + " AND TitleName='" + tf[2].getText() + "'";
+                if (!tf[3].getText().equals(""))
+                    sql = sql + " AND PositionName='" + tf[3].getText() + "'";
+                // if(!tf[4].getText().equals(""))
+                // 	sql=sql+" AND DepartMentName="+tf[4].getText();
+                if (!tf[4].getText().equals(""))
+                    sql = sql + " AND HireDate=" + tf[4].getText();
             }
+            queryEmployeeInfo_2(sql);
         });
         pn_second.removeAll();
         sarAdminJFrame.repaint();
