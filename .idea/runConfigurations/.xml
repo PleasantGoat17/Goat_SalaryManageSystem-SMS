@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="运行工资管理系统" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.goat.HomePage" />
+    <module name="DMS-kcsj" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

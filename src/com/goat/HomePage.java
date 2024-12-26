@@ -1,4 +1,4 @@
-package xsxk;
+package com.goat;
 
 import java.sql.*;
 import java.awt.*;
